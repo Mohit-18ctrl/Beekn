@@ -839,7 +839,7 @@ export default function LandingPage({
 
       {/* ─── Footer ─── */}
       <footer className="py-8 border-t border-white/[0.04] text-center text-xs text-[#475569]">
-        © 2025 Beekn — Built for Vibe2Ship Hackathon
+        © 2026 Beekn — Built for Vibe2Ship Hackathon
       </footer>
     </div>
   );

@@ -176,7 +176,7 @@ export default function IssueFeed({
   }, [issues, searchTerm, selectedCategory, selectedStatus, scopeMode, userLocation, currentUserId]);
 
   return (
-    <div id="feed-view" className="space-y-3 sm:space-y-4 pb-4 dark:text-slate-100">
+    <div id="feed-view" className="space-y-3 sm:space-y-4 pb-24 md:pb-4 dark:text-slate-100">
       <SectionHeader
         title="Issues Near You"
         subtitle="Browse local reports, verify what you have seen, and follow progress."

@@ -79,7 +79,7 @@ export default function Dashboard({
   }, {} as Record<IssueCategory, number>);
 
   return (
-    <div id="dashboard-view" className="space-y-4 sm:space-y-5 pb-4 text-slate-800 dark:text-slate-100">
+    <div id="dashboard-view" className="space-y-4 sm:space-y-5 pb-24 md:pb-4 text-slate-800 dark:text-slate-100">
       <div className="border-b border-slate-100 pb-3 dark:border-slate-800">
         <SectionHeader
           title="Community Dashboard"

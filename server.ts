@@ -8,7 +8,8 @@ import { v2 as cloudinary } from "cloudinary";
 import multer from "multer";
 import { Issue, GeminiAnalysis, IssueStatus, IssueCategory, IssueSeverity, Comment } from "./src/types";
 
-dotenv.config();
+dotenv.config({ path: ".env", quiet: true });
+dotenv.config({ path: ".env.local", override: true, quiet: true });
 
 // Configure Cloudinary
 cloudinary.config({
@@ -22,6 +23,24 @@ const upload = multer({ storage: multer.memoryStorage() });
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
+
+// Enable CORS for Firebase-hosted frontend and local/dev clients.
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  res.header("Vary", "Origin");
+  if (origin) {
+    res.header("Access-Control-Allow-Origin", origin);
+    res.header("Access-Control-Allow-Credentials", "true");
+  } else {
+    res.header("Access-Control-Allow-Origin", "*");
+  }
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
 // Body parser with 10MB limit for base64 image uploads
 app.use(express.json({ limit: "10mb" }));

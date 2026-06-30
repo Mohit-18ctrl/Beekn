@@ -150,7 +150,7 @@ export default function AdminPanel({
   };
 
   return (
-    <div className="space-y-6 pb-12 text-slate-800 dark:text-slate-100" id="admin-view-panel">
+    <div className="space-y-6 pb-28 md:pb-12 text-slate-800 dark:text-slate-100" id="admin-view-panel">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>

@@ -162,7 +162,7 @@ export default function Settings({
   };
 
   return (
-    <div className="space-y-4 pb-4 text-slate-800 dark:text-slate-100">
+    <div className="space-y-4 pb-24 md:pb-4 text-slate-800 dark:text-slate-100">
       <div className="flex flex-col gap-3 border-b border-slate-100 pb-3 dark:border-slate-800 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h2 className="font-display text-xl font-black tracking-tight text-slate-950 dark:text-white">

@@ -120,7 +120,7 @@ export default function IssueDetail({
   };
 
   return (
-    <div className="space-y-4 sm:space-y-6 pb-8" id={`detail-view-${issue.id}`}>
+    <div className="space-y-4 sm:space-y-6 pb-24 md:pb-8" id={`detail-view-${issue.id}`}>
       {/* Header Navigation */}
       <div className="flex items-center justify-between border-b border-slate-100 pb-3">
         <button

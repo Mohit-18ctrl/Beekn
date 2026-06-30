@@ -743,7 +743,7 @@ export default function ReportIssue({
   };
 
   return (
-    <div className="space-y-4 sm:space-y-6 pb-6" id="report-form-container">
+    <div className="space-y-4 sm:space-y-6 pb-24 md:pb-6" id="report-form-container">
       <div className="flex items-center justify-between border-b border-slate-100 pb-3">
         <div>
           <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100 tracking-tight">Report an Issue</h2>

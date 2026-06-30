@@ -15,6 +15,27 @@ import MobileOnboarding from "./components/MobileOnboarding";
 import Settings from "./components/Settings";
 import appIcon from "./assets/icon-beekn.jpeg";
 
+const DEPLOYED_BACKEND_URL = "https://beekn.onrender.com";
+
+// Global fetch patch to redirect /api/ calls to the Render backend server
+if (typeof window !== "undefined") {
+  const originalFetch = window.fetch;
+  const configuredBackendUrl = import.meta.env.VITE_BACKEND_URL?.replace(/\/$/, "");
+  const isFirebaseHosted = /(?:^|\.)web\.app$|(?:^|\.)firebaseapp\.com$/.test(window.location.hostname);
+  const apiBackendUrl = configuredBackendUrl || (isFirebaseHosted ? DEPLOYED_BACKEND_URL : window.location.origin);
+
+  window.fetch = function (input, init) {
+    if (typeof input === "string" && input.startsWith("/api/")) {
+      const requestInit = init ? { ...init } : undefined;
+      if (apiBackendUrl !== window.location.origin) {
+        delete requestInit?.credentials;
+      }
+      return originalFetch(`${apiBackendUrl}${input}`, requestInit);
+    }
+    return originalFetch(input, init);
+  };
+}
+
 function useIsMobile(breakpoint = 768) {
   const [isMobile, setIsMobile] = useState(() => typeof window !== 'undefined' && window.innerWidth < breakpoint);
   useEffect(() => {
@@ -690,7 +711,8 @@ export default function App() {
       ? await linkWithCredential(currentUser, credential).catch(() => createUserWithEmailAndPassword(fb.auth, email, password))
       : await createUserWithEmailAndPassword(fb.auth, email, password);
 
-    await refreshSignedInProfile(result.user);
+    setAuthUser(result.user);
+    setUserProfile(await loadUserProfile(result.user));
     showAlert("Account created. Choose your profile type.", "success");
   };
 
@@ -1576,7 +1598,7 @@ export default function App() {
     <div className="h-screen h-[100dvh] bg-[#FAFAF8] dark:bg-[#0A0F1E] flex flex-col font-sans text-[#1A1A2E] dark:text-[#F0F0F5] selection:bg-coral-100 selection:text-coral-900 overflow-hidden relative">
       
       {/* Top High-Density Navigation Header */}
-      <nav id="top-navigation" className="h-16 bg-white dark:bg-navy-950 text-[#1A1A2E] dark:text-[#F0F0F5] flex items-center justify-between px-4 sm:px-6 shrink-0 shadow-xs border-b border-slate-200 dark:border-navy-800 relative z-20">
+      <nav id="top-navigation" className="h-16 bg-white dark:bg-navy-950 text-[#1A1A2E] dark:text-[#F0F0F5] flex items-center justify-between px-4 sm:px-6 shrink-0 shadow-xs border-b border-slate-200 dark:border-navy-800 relative z-[5000]">
         <div className="flex items-center gap-2.5">
           <img src={appIcon} alt="Beekn Logo" className="w-9 h-9 rounded-xl shadow-md object-cover" />
           <div>
@@ -1679,7 +1701,7 @@ export default function App() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-18 left-4 right-4 z-50 mx-auto max-w-sm rounded-xl p-3 shadow-lg border bg-navy-950 border-navy-800 text-white flex items-center gap-2.5"
+            className="fixed top-18 left-4 right-4 z-[6000] mx-auto max-w-sm rounded-xl p-3 shadow-lg border bg-navy-950 border-navy-800 text-white flex items-center gap-2.5"
           >
             <div className="h-2 w-2 rounded-full bg-coral-500 animate-ping" />
             <span className="text-xs font-semibold">{alertMessage.text}</span>
@@ -1688,7 +1710,7 @@ export default function App() {
       </AnimatePresence>
 
       {/* Main Container */}
-      <main className="flex-1 min-h-0 w-full mx-auto px-3 pt-3 pb-20 md:px-4 md:py-5 flex flex-col md:flex-row md:gap-5 overflow-y-auto md:overflow-hidden native-scroll">
+      <main className="h-[calc(100dvh-8rem-env(safe-area-inset-bottom))] md:h-auto md:flex-1 min-h-0 w-full mx-auto px-3 pt-3 pb-3 md:px-4 md:py-5 flex flex-col md:flex-row md:gap-5 overflow-y-auto md:overflow-hidden native-scroll">
         
         {/* Left Column Navigation (Hidden on Mobile, Visible on Desktop for High Density) */}
         <aside
@@ -2020,7 +2042,7 @@ export default function App() {
       </main>
 
       {/* Bottom PWA Style Navigation Bar (Visible on Mobile only for PWA feel) */}
-      <footer id="bottom-pwa-bar" className="md:hidden h-16 bg-white border-t border-slate-200 shrink-0 flex items-center justify-around px-2 relative z-20 shadow-lg dark:border-navy-800 dark:bg-navy-950/95 dark:backdrop-blur-md">
+      <footer id="bottom-pwa-bar" className="fixed inset-x-0 bottom-0 z-[5000] flex h-[calc(4rem+env(safe-area-inset-bottom))] items-start justify-around border-t border-slate-200 bg-white px-2 pt-1 shadow-lg dark:border-navy-800 dark:bg-navy-950/95 dark:backdrop-blur-md md:hidden">
         {[
           { id: "dashboard", label: "Dashboard", icon: <LayoutDashboard className="w-5 h-5" /> },
           { id: "feed", label: "Feed", icon: <ListFilter className="w-5 h-5" /> },
@@ -2157,7 +2179,7 @@ function JudgeDemoHelper({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="fixed bottom-20 md:bottom-6 right-4 z-40 font-sans text-slate-800 dark:text-slate-100">
+    <div className="fixed bottom-20 md:bottom-6 right-4 z-[5000] font-sans text-slate-800 dark:text-slate-100">
       <AnimatePresence>
         {isOpen ? (
           <motion.div
