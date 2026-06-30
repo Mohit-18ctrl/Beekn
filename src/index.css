@@ -1,0 +1,379 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Gotham Signal Gold Palette (mapping to coral-* keys to preserve class mapping) */
+  --color-coral-50: #FFFDF0;
+  --color-coral-100: #FEF7C3;
+  --color-coral-200: #FDE047;
+  --color-coral-300: #FACC15;
+  --color-coral-400: #EAB308;
+  --color-coral-500: #EAB308; /* Signal Gold */
+  --color-coral-600: #CA8A04;
+  --color-coral-700: #A16207;
+
+  /* Remap indigo classes to Bat-Signal Gold/Amber */
+  --color-indigo-50: #FFFDF0;
+  --color-indigo-100: #FEF7C3;
+  --color-indigo-200: #FDE047;
+  --color-indigo-300: #FACC15;
+  --color-indigo-400: #EAB308;
+  --color-indigo-500: #EAB308;
+  --color-indigo-600: #CA8A04;
+  --color-indigo-700: #A16207;
+  --color-indigo-800: #854D0E;
+  --color-indigo-900: #713F12;
+
+  /* Remap teal classes to Gotham Steel/Obsidian Gray */
+  --color-teal-50: #F8FAFC;
+  --color-teal-100: #F1F5F9;
+  --color-teal-200: #E2E8F0;
+  --color-teal-300: #CBD5E1;
+  --color-teal-400: #94A3B8;
+  --color-teal-500: #64748B;
+  --color-teal-600: #475569;
+  --color-teal-700: #334155;
+  --color-teal-800: #1E293B;
+  --color-teal-900: #0F172A;
+
+  --color-amber-accent: #F59E0B; /* Signal Amber */
+
+  --color-navy-950: #05070F; /* Midnight Obsidian */
+  --color-navy-900: #0A0D1A;
+  --color-navy-800: #101526;
+  --color-navy-700: #172036;
+  --color-navy-600: #1E2945;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+/* ── Light mode body ── */
+body {
+  background: #FAFAF8;
+}
+
+/* ── Dark mode body (Gotham Midnight) ── */
+.dark body {
+  background:
+    radial-gradient(ellipse at top left, rgba(234, 179, 8, 0.05), transparent 32rem),
+    radial-gradient(ellipse at bottom right, rgba(99, 102, 241, 0.04), transparent 34rem),
+    #05070F;
+}
+
+/* ── Dark-mode surface overrides ── */
+.dark .bg-white {
+  background-color: #0A0D1A;
+}
+
+.dark .bg-slate-50,
+.dark .bg-slate-50\/50,
+.dark .bg-slate-50\/80,
+.dark .bg-white\/80,
+.dark .bg-white\/95 {
+  background-color: rgba(16, 21, 38, 0.92);
+}
+
+.dark .border-slate-100,
+.dark .border-slate-200,
+.dark .border-slate-200\/60,
+.dark .border-slate-200\/80 {
+  border-color: rgba(30, 41, 69, 0.6);
+}
+
+.dark .text-slate-800,
+.dark .text-slate-700 {
+  color: #F0F0F5;
+}
+
+.dark .text-slate-600 {
+  color: #C8D0E0;
+}
+
+.dark .text-slate-500 {
+  color: #8B96B0;
+}
+
+.dark .shadow-xs,
+.dark .shadow-sm,
+.dark .shadow-md,
+.dark .shadow-lg {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.38);
+}
+
+/* ── Dark civic surfaces ── */
+.dark .civic-glass {
+  background:
+    linear-gradient(145deg, rgba(10, 13, 26, 0.95), rgba(5, 7, 15, 0.97)),
+    radial-gradient(circle at top right, rgba(234, 179, 8, 0.04), transparent 16rem);
+  border-color: rgba(234, 179, 8, 0.08);
+}
+
+.dark .civic-panel {
+  background:
+    linear-gradient(150deg, rgba(10, 13, 26, 0.96), rgba(5, 7, 15, 0.98)),
+    radial-gradient(circle at top left, rgba(79, 70, 229, 0.05), transparent 18rem);
+  border-color: rgba(30, 41, 69, 0.4);
+}
+
+.dark .civic-tile {
+  background: rgba(16, 21, 38, 0.78);
+  border-color: rgba(234, 179, 8, 0.06);
+}
+
+/* ── Beacon Pulse Animation ── */
+@keyframes beacon-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: scale(2.8);
+    opacity: 0;
+  }
+}
+
+@keyframes beacon-pulse-slow {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(3.5);
+    opacity: 0;
+  }
+}
+
+@keyframes searchlight {
+  0%, 100% {
+    transform: rotate(-14deg);
+  }
+  50% {
+    transform: rotate(14deg);
+  }
+}
+
+.beacon-ring {
+  animation: beacon-pulse 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+}
+
+.beacon-ring-delayed {
+  animation: beacon-pulse 2.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.8s infinite;
+}
+
+.beacon-ring-slow {
+  animation: beacon-pulse-slow 3.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 1.6s infinite;
+}
+
+/* ── Shimmer/Glow Effect ── */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.btn-shimmer {
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* ── Splash Brand Animation ── */
+@keyframes splash-reveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+    filter: blur(10px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.03);
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes splash-glow {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(234, 179, 8, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 40px rgba(234, 179, 8, 0.6), 0 0 80px rgba(245, 158, 11, 0.2);
+  }
+}
+
+.splash-brand {
+  animation: splash-reveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+             splash-glow 2s ease-in-out 0.9s infinite;
+}
+
+/* ── Progress Bar Glow ── */
+@keyframes progress-glow {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(234, 179, 8, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(234, 179, 8, 0.7);
+  }
+}
+
+.progress-bar-glow {
+  animation: progress-glow 2s ease-in-out infinite;
+}
+
+/* ── Staggered fade-up ── */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.animate-fade-up-d1 { animation-delay: 0.1s; }
+.animate-fade-up-d2 { animation-delay: 0.2s; }
+.animate-fade-up-d3 { animation-delay: 0.3s; }
+.animate-fade-up-d4 { animation-delay: 0.4s; }
+.animate-fade-up-d5 { animation-delay: 0.5s; }
+
+/* ── Counter animation ── */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-count-up {
+  animation: count-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+/* ── Gradient text utility (Bat-Signal Gold) ── */
+.text-gradient-coral {
+  background: linear-gradient(135deg, #F59E0B, #FACC15);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Scrollbar utilities ── */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.native-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 150, 176, 0.25) transparent;
+}
+
+.native-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.native-scroll::-webkit-scrollbar-thumb {
+  background: rgba(139, 150, 176, 0.25);
+  border-radius: 999px;
+}
+
+@media (max-width: 767px) {
+  .native-scroll {
+    scrollbar-width: none;
+  }
+
+  .native-scroll::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ── Cinematic Landing: Phone Beacon Pulses ── */
+@keyframes beaconPulse1 {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@keyframes beaconPulse2 {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.95; }
+}
+
+@keyframes beaconPulse3 {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.9; }
+}
+
+/* ── Cinematic Landing: Beekn Icon Halo ── */
+@keyframes iconHalo {
+  0%, 100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+/* ── Cinematic Landing: Window Flicker Groups ── */
+@keyframes windowFlickerA {
+  0%, 100% { opacity: 1; }
+  35% { opacity: 0.7; }
+  65% { opacity: 0.95; }
+  80% { opacity: 0.75; }
+}
+
+@keyframes windowFlickerB {
+  0%, 100% { opacity: 1; }
+  25% { opacity: 0.8; }
+  50% { opacity: 0.65; }
+  75% { opacity: 0.9; }
+}
+
+@keyframes windowFlickerC {
+  0%, 100% { opacity: 1; }
+  20% { opacity: 0.85; }
+  45% { opacity: 0.7; }
+  70% { opacity: 0.95; }
+  90% { opacity: 0.75; }
+}
+
+/* ── Cinematic Landing: Beam Shimmer ── */
+@keyframes beamShimmer {
+  0%, 100% { opacity: 0.5; }
+  40% { opacity: 0.85; }
+  60% { opacity: 0.65; }
+  80% { opacity: 0.9; }
+}

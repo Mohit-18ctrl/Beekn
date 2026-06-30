@@ -1,0 +1,10 @@
+{
+  "name": "Beekn",
+  "description": "A mobile-first responsive civic issue reporting platform with Gemini AI severity analysis and department routing.",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
